@@ -314,6 +314,33 @@ def _get_tree_properties(root):
     }
 
 
+def get_parent_node(root, node):
+    """Search from the binary tree and return the parent node for require node.
+
+    :param root: Root node of the binary tree.
+    :rtype: binarytree.Node
+    :param node: Require node you want to get its parent node.
+    :rtype: binarytree.Node
+    :return: The parent node of require node.
+    :rtype: binarytree.Node
+    """
+    if root is node:
+        return None
+    node_stack = [root]
+    while True:
+        if root is node:
+            break
+        elif root is not None:
+            node_stack.append(root)
+            root = root.left
+        elif len(node_stack) > 0:
+            root = node_stack.pop()
+            root = root.right
+        else:
+            break
+    return node_stack[-1]
+
+
 class Node(object):
     """Represents a binary tree node.
 
@@ -1989,3 +2016,12 @@ def heap(height=3, is_max=True, is_perfect=False):
     else:
         heapq.heapify(values)
         return build(values)
+
+if __name__ == '__main__':
+    root = Node(0)
+    root.left = Node(1)
+    root.right = Node(2)
+    root.left.left = Node(3)
+    print (root)
+    root = get_parent_node(root, root.left.left)
+    print (root)
